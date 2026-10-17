@@ -8,4 +8,3 @@ while True:
         print(f"Error: {e}")
 
 print(f"Hi: {input}")
-Prepkdeme

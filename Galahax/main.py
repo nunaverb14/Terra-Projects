@@ -1,7 +1,9 @@
 from background import Star
 from sprites import *
 from images import *
+import sprites
 import images
+import background
 import pygame
 
 # Pygame Initialization
