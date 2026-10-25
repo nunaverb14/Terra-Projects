@@ -14,7 +14,7 @@ font_lc24 = pygame.font.SysFont("lucidaconsole", 24)
 # Game Setup
 box = pygame.Rect(50, 50, 500, 500)
 turn = 0
-level = 1
+level = 20
 game = 1
 
 # Shooting Setup
