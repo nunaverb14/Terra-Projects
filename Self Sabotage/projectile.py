@@ -1,4 +1,14 @@
 import pygame
+import os
+import sys
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 # Projectile Sprite Class
 class Projectile(pygame.sprite.Sprite):
@@ -18,13 +28,13 @@ class Projectile(pygame.sprite.Sprite):
         self.type = shot
         self.bounce = 0
         if self.type == 0:
-            self.image = pygame.image.load("images/Mine.png")
+            self.image = pygame.image.load(resource_path("images/Mine.png"))
             self.add(Projectile.mines)
         elif self.type == 1:
-            self.image = pygame.image.load("images/Bullet.png")
+            self.image = pygame.image.load(resource_path("images/Bullet.png"))
             self.add(Projectile.bullets)
         elif self.type == 2:
-            self.image = pygame.image.load("images/Bouncing.png")
+            self.image = pygame.image.load(resource_path("images/Bouncing.png"))
             self.add(Projectile.bouncers)
             self.bounce = 1
 
