@@ -1,6 +1,8 @@
-from projectile import Projectile
+from projectile import *
 import projectile
 import pygame
+
+
 
 # Pygame init
 pygame.init()
@@ -27,7 +29,7 @@ bouncers = 0
 mines = 0
 
 # Cannon Setup
-cannon = pygame.image.load("images/Cannon.png")
+cannon = pygame.image.load(resource_path("images/Cannon.png"))
 cannon.set_colorkey((255, 255, 255))
 cannon_rect = cannon.get_rect(center=box.topleft)
 
@@ -36,7 +38,7 @@ cannon_pointer = list(box.center)
 pointer_speed = 10
 
 # Player Setup
-player = pygame.image.load("images/Player.png")
+player = pygame.image.load(resource_path("images/Player.png"))
 player.set_colorkey((255, 255, 255))
 player_rect = player.get_rect(center=box.center)
 lives = 7
@@ -115,7 +117,7 @@ while running:
                 cannon_rect.center = box.topleft
                 player_rect.center = box.center
 
-                pygame.time.delay(1000)
+                pygame.time.delay(250)
 
             # Draw Player Screen
             text = font_lc32.render(f"Level {level}    Lives: {lives}", True, "pink")
