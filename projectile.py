@@ -2,7 +2,6 @@ import pygame
 import os
 import sys
 
-# Proper Exe Resource Path
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
