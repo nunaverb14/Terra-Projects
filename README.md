@@ -6,6 +6,7 @@ This is the repository for all of my projects for Hack Club Terra. All projects 
 ## Games
 - Galahax
 - Self Sabotage
+- Disaster Relief
 
 ### Galahax
 A Galaga-style shooter game about destroying hacker ships. Made completely in Python using Pygame. 
