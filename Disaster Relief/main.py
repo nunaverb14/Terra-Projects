@@ -200,6 +200,9 @@ while running:
                 text_rect = screen.blit(screen_text, screen_text.get_rect(centerx=text_rect.centerx, top=screen.get_rect().centery))
                 screen_text = robotomono_24.render("Better luck next time...", True, "red")
                 text_rect = screen.blit(screen_text, screen_text.get_rect(centerx=text_rect.centerx, top=screen.get_rect().centery + screen_text.height * 2))
+            
+            screen_text = robotomono_24.render("Press any key to quit", True, "black")
+            text_rect = screen.blit(screen_text, screen_text.get_rect(centerx=text_rect.centerx, top=screen.get_rect().centery + screen_text.height * 8))
 
             pygame.display.flip()
             quit = False
