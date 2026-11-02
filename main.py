@@ -46,7 +46,7 @@ towers_data = {
 
 # Game Vars
 clicked = False
-money = 2000
+money = 45
 game_start = False
 game_over = False
 game_win = False
