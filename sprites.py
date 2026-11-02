@@ -137,6 +137,7 @@ class Tower(pygame.sprite.Sprite):
                 for tile in Tile.tiles.sprites():
                     if pygame.Vector2(self.rect.center).distance_to(tile.rect.center) == distance and tile.type != 0:
                         shot = Projectile(self.type, self.rect.center, tile.rect)
+                        break
 
             self.shot_time -= self.speed
 
