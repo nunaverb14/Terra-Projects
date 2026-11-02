@@ -33,3 +33,5 @@ Disaster Relief is a tower defense game where you are trying to enjoy your grass
 **How To Play**
 
 Buy a Tower From the shop and place it on a tile. As you destroy tiles you will get more coins, use them to buy more and better towers from the shop.
+
+<img width="1213" height="1010" alt="Screenshot 2026-11-01 185648" src="https://github.com/user-attachments/assets/aec572c7-b65d-44d8-ab44-ce31691c2439" />
