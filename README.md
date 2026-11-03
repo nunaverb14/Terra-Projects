@@ -24,7 +24,7 @@ Self Sabotage is a game where you start as a cannon and shoot into "The Box". Th
 
 **How To Play**
 
-Use the arrow keys or WASD to move. Right-click to shoot and place mines. Works with number pad.
+Use the arrow keys or WASD to move. Left-click to shoot and place mines. Works with number pad.
 
 <img width="757" height="797" alt="Screenshot 2026-10-25 143646" src="https://github.com/user-attachments/assets/853f08cb-2105-4e63-97d0-e5f48ad5c952" />
 
