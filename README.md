@@ -6,6 +6,7 @@ This is the repository for all of my projects for Hack Club Terra. All projects 
 ## Games
 - Galahax
 - Self Sabotage
+- Disaster Relief
 
 ### Galahax
 A Galaga-style shooter game about destroying hacker ships. Made completely in Python using Pygame. 
@@ -23,7 +24,7 @@ Self Sabotage is a game where you start as a cannon and shoot into "The Box". Th
 
 **How To Play**
 
-Use the arrow keys or WASD to move. Right-click to shoot and place mines. Works with number pad.
+Use the arrow keys or WASD to move. Left-click to shoot and place mines. Works with number pad.
 
 <img width="757" height="797" alt="Screenshot 2026-10-25 143646" src="https://github.com/user-attachments/assets/853f08cb-2105-4e63-97d0-e5f48ad5c952" />
 
@@ -33,3 +34,5 @@ Disaster Relief is a tower defense game where you are trying to enjoy your grass
 **How To Play**
 
 Buy a Tower From the shop and place it on a tile. As you destroy tiles you will get more coins, use them to buy more and better towers from the shop.
+
+<img width="1213" height="1010" alt="Screenshot 2026-11-01 185648" src="https://github.com/user-attachments/assets/aec572c7-b65d-44d8-ab44-ce31691c2439" />
