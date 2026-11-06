@@ -1,3 +1,4 @@
+from sprites import *
 import pygame
 
 ###
@@ -16,11 +17,17 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    ###
-    screen.fill("orange")
 
     ###
+    screen.fill("gold")
+
+    ###
+    Fruit.fruits.draw(screen)
     pygame.display.flip()
-    clock.tick(60)
 
+    ###
+    dt = clock.tick(60) / 1000
+    Fruit.fruits.update(dt)
+
+    
 pygame.quit()
