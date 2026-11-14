@@ -1,5 +1,7 @@
 from tkinter import filedialog
+from sprites import *
 import pygame
+import random
 
 # Image File Chooser
 def choose_image():
@@ -27,8 +29,12 @@ font2 = None
 
 ###
 image_path = None
-image = None
+image = pygame.Surface((540, 540), pygame.SRCALPHA)
 image_chosen = False
+
+###
+tile_num = 3
+tiles_shuffled = False
 
 # Game State Vars
 game_start = False
@@ -46,10 +52,11 @@ while running:
                 click = True
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == pygame.BUTTON_LEFT:
-                click == False
+                click = False
+
+    mouse_pos = pygame.mouse.get_pos()
 
     screen.fill("white")
-    mouse_pos = pygame.mouse.get_pos()
 
     if not image_path:
         image = pygame.Surface((540, 540), pygame.SRCALPHA)
@@ -63,18 +70,35 @@ while running:
             _image_path = choose_image()
             if _image_path:
                 image_path = _image_path
+        screen.blit(image, image.get_rect())
     else:
         if not image_chosen:
             image_chosen = True
-            image = pygame.image.load(image_path).convert()
-            image = pygame.transform.smoothscale_by(image, 540 / max(image.width, image.height))
+            _image = pygame.image.load(image_path).convert()
+            _image = pygame.transform.smoothscale_by(_image, 540 / max(_image.width, _image.height))
+            image.fill("white")
+            image.blit(_image, _image.get_rect(center=image.get_rect().center))
+            screen.blit(image, image.get_rect())
         else:
-            pygame.draw.rect(image, "black", (0, 0, 540, 540), 4)
+            if not tiles_shuffled:
+                tiles = []
+                w = h = 540 / tile_num
+                for i in range(tile_num * tile_num):
+                    x = i % tile_num
+                    y = i // tile_num
+                    sub_rect = pygame.draw.rect(image, "blue", (x * w, y * h, w, h), 2)
+                    tile = Tile(image.subsurface((x * w, y * h, w, h)), sub_rect.topleft)
+
+                shuffle_pos = [tile.rect.topleft for tile in Tile.tiles.sprites()]
+                random.shuffle(shuffle_pos)
+
+                for tile in Tile.tiles.sprites():
+                    tile.set_pos(shuffle_pos[Tile.tiles.sprites().index(tile)])
+                tiles_shuffled = True
+            
             pygame.draw.rect(screen, "black", (0, 0, 540, 540), 4)
-        
 
-    screen.blit(image, image.get_rect())
-
+    Tile.tiles.draw(screen)
     pygame.display.flip()
     clock.tick(60)
 
