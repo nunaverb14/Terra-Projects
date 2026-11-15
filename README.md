@@ -8,6 +8,7 @@ This is the repository for all of my projects for Hack Club Terra. All games are
 - [Self Sabotage](#Self-Sabotage)
 - [Disaster Relief](#Disaster-Relief)
 - [Fall Farmer](#Fall-Farmer)
+- [Image Slicer Puzzle Game](#Image-Slicer-Puzzle-Game)
 
 ### Galahax
 A Galaga-style shooter game about destroying hacker ships. Made completely in Python using Pygame. 
@@ -34,7 +35,7 @@ Disaster Relief is a tower defense game where you are trying to enjoy your grass
 
 **How To Play**
 
-Buy a Tower From the shop and place it on a tile. As you destroy tiles you will get more coins, use them to buy more and better towers from the shop.
+Buy a Tower From the shop and place it on a tile. As you destroy tiles, you will get more coins; use them to buy more and better towers from the shop.
 
 <img width="1213" height="1010" alt="Screenshot 2026-11-01 185648" src="https://github.com/user-attachments/assets/aec572c7-b65d-44d8-ab44-ce31691c2439" />
 
@@ -47,4 +48,12 @@ Use the arrow keys or A and D to move and catch apples. Works with number pad. C
 
 <img width="1007" height="947" alt="image" src="https://github.com/user-attachments/assets/5f7d3ca1-a4e0-40e9-9eae-86f0f4bd2afa" />
 
+### Image Slicer Puzzle Game
 
+Image Slicer Puzzle Game is a game where you upload an image and try to put it back together.
+
+**How To Play**
+
+Choose an image by clicking the Change Image box and your difficulty from the options on the side panel. Your image will then be scrambled. Left-click on a tile to select it (you should see a blue outline). Click another tile to swap their positions. On easy and medium modes, a tile will be green when placed in the correct spot. On all other modes, the entire image will turn green when all tiles are placed in their correct spots. You can change the difficulty or the image at any time.
+
+<img width="962" height="1000" alt="image" src="https://github.com/user-attachments/assets/419089c1-aadd-43ab-8f33-b5c565c7ee2c" />
