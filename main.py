@@ -34,6 +34,7 @@ image = pygame.Surface((540, 540), pygame.SRCALPHA)
 image_chosen = False
 change_image = False
 complete = False
+images_completed = 0
 
 # Difficulty & Tile Vars
 selected_mode = 0
@@ -108,7 +109,6 @@ while running:
     if not image_path:
         tiles_shuffled = False
         image_chosen = False
-        complete = False
         # Default Image
         image.fill((64, 64, 64, 32))
         pygame.draw.rect(image, (64, 64, 64, 128), image.get_rect(), 8)
@@ -152,6 +152,7 @@ while running:
                     tile.set_pos(shuffle_pos[Tile.tiles.sprites().index(tile)])
 
                 tiles_shuffled = True
+                complete = False
 
             for tile in Tile.tiles.sprites():
                 # Draw Outline of Selected Tile
@@ -172,10 +173,17 @@ while running:
     Tile.tiles.update(selected_mode)
     # Completed Image Overlay
     if all(tile.original_pos == tile.current_pos for tile in Tile.tiles.sprites()) and image_chosen:
-        complete = True
         overlay = pygame.Surface((540, 540), pygame.SRCALPHA)
         overlay.fill((0, 255, 0, 32))
         screen.blit(overlay)
+        # Completed Image Counter
+        if not complete and tiles_shuffled:
+            complete = True
+            images_completed += 1
+        # Counter Text
+        text = roboto_mono.render(f"{images_completed} Images Completed", True, "black", "white")
+        screen.blit(text, text.get_rect(center=image.get_rect().center))
+
     # Image Outline
     pygame.draw.rect(screen, "black", (0, 0, 540, 540), 4)
 
