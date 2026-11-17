@@ -7,7 +7,7 @@ import random
 def choose_image():
     filename = filedialog.askopenfilename(
         title="Choose an image",
-        filetypes=[
+        filetypes=[ 
             ("Images", "*.png *.jpg *.jpeg *.bmp"),
             ("All files", "*.*")
         ]
