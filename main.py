@@ -38,7 +38,7 @@ while running:
     for player in Player.players.sprites():
         player.rect.clamp_ip(screen.get_rect())
 
-        surf = pygame.transform.scale_by(pygame.Surface((32, 8)), 5)
+        surf = pygame.transform.scale_by(pygame.Surface((32, 8), pygame.SRCALPHA), 5)
         surf.fill("white")
         pygame.draw.rect(surf, "black", ((0, 0), surf.size), 2)
         text = roboto_mono.render(str(player.health), True, "green")
@@ -47,13 +47,17 @@ while running:
         i = Player.players.sprites().index(player)
         screen.blit(surf, (0 if not i % 2 else screen.get_rect().right - surf.width, 48 * (i // 2)))
 
-
+    for shot in Projectile.shots:
+        if not shot.rect.colliderect(screen.get_rect()):
+            shot.kill()
 
     Player.players.draw(screen)
+    Projectile.shots.draw(screen)
     pygame.display.flip()
 
     dt = clock.tick(60) / 1000
     Player.players.update(dt)
+    Projectile.shots.update(dt)
 
 
 pygame.quit()
