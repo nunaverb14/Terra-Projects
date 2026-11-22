@@ -1,4 +1,4 @@
-from sprite import *
+from sprites import *
 import pygame
 
 pygame.init()
@@ -51,6 +51,12 @@ while running:
         if not shot.rect.colliderect(screen.get_rect()):
             shot.kill()
 
+        hit = pygame.sprite.spritecollide(shot, Projectile.shots, False)
+        if len(hit) > 1:
+            shot.kill()
+            hit[1].kill()
+
+    
     Player.players.draw(screen)
     Projectile.shots.draw(screen)
     pygame.display.flip()
@@ -61,4 +67,3 @@ while running:
 
 
 pygame.quit()
-    

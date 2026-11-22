@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_anim_timer = 0
         self.attack_anim_timer = 0
         self.shoot_anim_timer = 0
-        # self.last_block_time = 0
+
     
     def set(self, char, images: list | tuple):
         for i in range(len(images)):
@@ -89,9 +89,10 @@ class Player(pygame.sprite.Sprite):
             self.attack()
         # E: 5
         if pygame.key.get_pressed()[self.controls[5]] and now - self.shoot_timer >= 750:
-            # shoot
-            self.shoot_timer = now
-            Projectile(self.type, self.rect.midright if self.direction == 1 else self.rect.midleft, self.direction)
+            if self.action <= 1:
+                # shoot
+                self.shoot_timer = now
+                Projectile(self.type, self.rect.midright if self.direction == 1 else self.rect.midleft, self.direction)
 
         # jump
         if self.action == 1 and now - self.jump_anim_timer >= 20:
@@ -114,7 +115,6 @@ class Player(pygame.sprite.Sprite):
             self.attack_timer = now
             self.action = 0
             pass
-
 
 
 class Projectile(pygame.sprite.Sprite):
@@ -141,7 +141,6 @@ class Projectile(pygame.sprite.Sprite):
     def update(self, dt):
         self.rect.x += 5 * self.dir
         self.rot += 5
-        print(1 + abs((self.rot % 120 + 1) - 60) / 60)
         self.image = pygame.transform.rotate(pygame.transform.smoothscale_by(self._image, 1 + abs((self.rot % 360 + 1) - 180) / 180), self.rot)
         self.rect.y = self.pos[1] - self.image.get_rect().height / 2
 
