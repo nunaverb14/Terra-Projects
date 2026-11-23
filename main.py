@@ -2,11 +2,18 @@ from sprites import *
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode((640, 640))
+screen = pygame.display.set_mode((1280, 720))
+screen_rect = screen.get_rect()
 pygame.display.set_caption("Color Fighter")
 clock = pygame.time.Clock()
 
 roboto_mono = pygame.font.SysFont("ROBOTOMONO", 24)
+
+
+Platform(None, ((screen.get_rect().left, screen.get_rect().bottom - 1), (screen.width, 1)))
+Platform(None, pygame.Rect(screen_rect.centerx - 200, 525, 400, 50))
+Platform(None, (200, 300, 200, 50))
+
 
 player1 = Player((0, screen.get_rect().bottom), ["w", "a", "s", "d", "q", "e"])
 player1_images = []
@@ -47,6 +54,7 @@ while running:
         i = Player.players.sprites().index(player)
         screen.blit(surf, (0 if not i % 2 else screen.get_rect().right - surf.width, 48 * (i // 2)))
 
+
     for shot in Projectile.shots:
         if not shot.rect.colliderect(screen.get_rect()):
             shot.kill()
@@ -56,12 +64,27 @@ while running:
             shot.kill()
             hit[1].kill()
 
-    
+        hit = pygame.sprite.spritecollide(shot, Player.players, False)
+        for player in hit:
+            if player.type != shot.type:
+                if player.action == 2:
+                    if (player.direction + shot.dir):
+                        player.health -= 3
+                else:
+                    player.health -= 3
+                shot.kill()
+                break
+
+        
+
     Player.players.draw(screen)
     Projectile.shots.draw(screen)
+    Platform.platforms.draw(screen)
+
     pygame.display.flip()
 
     dt = clock.tick(60) / 1000
+    Platform.platforms.update(dt)
     Player.players.update(dt)
     Projectile.shots.update(dt)
 
