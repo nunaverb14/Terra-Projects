@@ -62,7 +62,6 @@ class Player(pygame.sprite.Sprite):
         self.attack_anim_timer = 0
         self.shoot_anim_timer = 0
 
-    
     def set(self, char):
         self.images = Player.images[char]
         self.type = char
@@ -94,7 +93,6 @@ class Player(pygame.sprite.Sprite):
         if self.action <= 1:
             Projectile(self.type, self.rect.midright if self.direction == 1 else self.rect.midleft, self.direction, self.num)
             self._image = self.images[1]
-
 
     def update(self, dt):
         now = pygame.time.get_ticks()

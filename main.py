@@ -15,6 +15,7 @@ left = Platform(None, (200, 300, 200, 50))
 right = Platform(None, (900, 300, 200, 50))
 
 Player.set_images(screen, ["Ice_Sprite.png", "Fire_Sprite.png"])
+
 # debug {
 # player1_images = []
 # surf1 = pygame.Surface((24 * 3, 32 * 2))
@@ -35,16 +36,20 @@ Player.set_images(screen, ["Ice_Sprite.png", "Fire_Sprite.png"])
 # Player.set_images(screen, [surf1, surf2])
 # }
 
-sprite = pygame.image.load(resource_path("images/Ice_Sprite.png"))
+# sprite = pygame.image.load(resource_path("images/Ice_Sprite.png"))
 
 player1 = Player((0, screen.get_rect().bottom), ["w", "a", "s", "d", "q", "e"])
 player2 = Player((screen.get_rect().right, screen.get_rect().bottom), ["i", "j", "k", "l", "u", "o"])
 player1.set(0)
 player2.set(1)
 
+winner = None
+winner_flip = 0
+flip_time = 0
+
 game_start = True
 game_over = False
-
+dt = 0
 running = True
 while running:
     for event in pygame.event.get():
@@ -54,6 +59,7 @@ while running:
     screen.fill("white")
 
     if game_start and not game_over:
+
         for player in Player.players.sprites():
             player.rect.clamp_ip(screen.get_rect())
 
@@ -66,12 +72,10 @@ while running:
             i = Player.players.sprites().index(player)
             screen.blit(surf, (0 if not i % 2 else screen.get_rect().right - surf.width, 48 * (i // 2)))
 
-
             if player.health <= 0:
                 winner = not player.num
                 game_over = True
         
-
         for shot in Projectile.shots:
             if not shot.rect.colliderect(screen.get_rect()):
                 shot.kill()
@@ -92,12 +96,10 @@ while running:
                     shot.kill()
                     break
 
-
         Player.players.draw(screen)
         Projectile.shots.draw(screen)
         Platform.platforms.draw(screen)
 
-        dt = clock.tick(60) / 1000
         Platform.platforms.update(dt)
         Player.players.update(dt)
         Projectile.shots.update(dt)
@@ -105,16 +107,26 @@ while running:
         if not game_start:
             pass
         else:
-            print(f" Winner: Player {winner + 1}")
+            winner_player = Player.players.sprites()[winner]
+            _winner_sprite = pygame.transform.smoothscale_by(winner_player.images[3], 2)
+            winner_sprite = _winner_sprite if winner_flip else pygame.transform.flip(_winner_sprite, True, False)
+            sprite_rect = screen.blit(winner_sprite, winner_sprite.get_rect(center=screen_rect.center))
 
+            roboto_mono.point_size = 48
+            text = roboto_mono.render(f"Winner: Player {winner + 1}", True, "blue" if winner_player.type == 0 else "red")
+            text_rect = text.get_rect(centerx=screen_rect.centerx, bottom=sprite_rect.top)
+            screen.blit(text, text_rect)
+
+            now = pygame.time.get_ticks()
+            if now - flip_time > 250:
+                flip_time = now
+                winner_flip = not winner_flip
 
     # for i in range(6):
     #     sprite.blit(roboto_mono.render(str(i), True, "white"), ((24 * (i % 3), 32 * (i // 3))))
     #     screen.blit(sprite.subsurface(((24 * (i % 3), 32 * (i // 3))), (24, 32)), ((48 * (i % 3), 64 * (i // 3))))
     # screen.blit(sprite, (500, 50))
     pygame.display.flip()
-
-    
-
+    dt = clock.tick(60) / 1000
 
 pygame.quit()
