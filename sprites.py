@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 
-def resource_path(relative_path):
+def resource_path(relative_path: str):
     try:
         base_path = sys._MEIPASS
     except AttributeError:
@@ -10,11 +10,22 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-
 class Player(pygame.sprite.Sprite):
     players = pygame.sprite.Group()
     num = 0
+    images = []
 
+    def set_images(screen, images: tuple[str, ...]):
+        for image in images:
+            sheet = pygame.image.load(resource_path("images/" + image)).convert_alpha()
+            sprites = []
+            for i in range(6):
+                image = sheet.subsurface((24 * (i % 3), 32 * (i // 3)), (24, 32))
+                image = pygame.transform.smoothscale_by(image, 4)
+                sprites.append(image)
+            
+            Player.images.append(sprites)
+    
     def __init__(self, pos:int, controls:list):
         pygame.sprite.Sprite.__init__(self)
         self.add(self.players)
@@ -23,7 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.image.fill("black")
         self.rect: pygame.Rect = self.image.get_rect(topleft=pos)
 
-        self.images = None
+        self.images = []
+        self._image = None
 
         self.num = Player.num
         Player.num += 1
@@ -51,24 +63,22 @@ class Player(pygame.sprite.Sprite):
         self.shoot_anim_timer = 0
 
     
-    def set(self, char, images: list | tuple):
-        for i in range(len(images)):
-            images[i] = pygame.transform.smoothscale_by(images[i], 4)
-
-        self.images = images
+    def set(self, char):
+        self.images = Player.images[char]
         self.type = char
+        self._image = self.images[3]
 
     def jump(self):
         if not self.action:
             self.action = 1
             self.vy = -self.rect.height / 5
-            self.image = self.images[1]
+            self._image = self.images[0]
             
     def block(self):
         if not self.action:
             self.action = 2
             self.attackable = False
-            self.image = self.images[2]
+            self._image = self.images[4]
 
     def attack(self):
         if not self.action:
@@ -78,22 +88,21 @@ class Player(pygame.sprite.Sprite):
                 if player != self:
                     if player.action != 2:
                         player.health -= 5
-            self.image = self.images[3]
+            self._image = self.images[2]
 
     def shoot(self):
         if self.action <= 1:
-            Projectile(self.type, self.rect.midright if self.direction == 1 else self.rect.midleft, self.direction)
-            self.image = self.images[4]
+            Projectile(self.type, self.rect.midright if self.direction == 1 else self.rect.midleft, self.direction, self.num)
+            self._image = self.images[1]
 
 
     def update(self, dt):
         now = pygame.time.get_ticks()
 
         if not self.action:
-         if now - self.image_timer >= 500:
+         if now - self.image_timer >= 1000:
             self.image_timer = now
-            self.image = self.images[0] if self.direction == 1 else pygame.transform.flip(self.images[0], True, False)
-
+            self._image = self.images[3]
 
         # W: 0
         if pygame.key.get_pressed()[self.controls[0]] and self.on_ground:
@@ -104,12 +113,12 @@ class Player(pygame.sprite.Sprite):
         # A: 1
         if pygame.key.get_pressed()[self.controls[1]]:
             self.rect.centerx += -10
-            self.image = pygame.transform.flip(self.images[0], True, False)
+            self.image = self.images[3]
             self.direction = -1
         # D: 3
         if pygame.key.get_pressed()[self.controls[3]]:
             self.rect.centerx += 10
-            self.image = self.images[0]
+            self.image = self.images[3]
             self.direction = 1
         # Q: 4
         if pygame.key.get_just_pressed()[self.controls[4]]:
@@ -152,10 +161,13 @@ class Player(pygame.sprite.Sprite):
                 self.block_timer = now
                 self.action = 0
         # attack
-        elif self.action == 3 and now - self.attack_timer >= 350:
-            self.attack_timer = now
-            self.action = 0
+        elif self.action == 3:
+            if now - self.attack_timer >= 350:
+                self.attack_timer = now
+                self.action = 0
             pass
+
+        self.image = self._image if self.direction == 1 else pygame.transform.flip(self._image, True, False)
 
 class Projectile(pygame.sprite.Sprite):
     shots = pygame.sprite.Group()
@@ -165,7 +177,7 @@ class Projectile(pygame.sprite.Sprite):
     def set_images(images):
         pass
 
-    def __init__(self, char: int, pos: tuple[int, int], dir: int):
+    def __init__(self, char:int, pos:tuple[int, int], dir:int, parent:int):
         pygame.sprite.Sprite.__init__(self)
         self.add(Projectile.shots)
 
@@ -175,6 +187,7 @@ class Projectile(pygame.sprite.Sprite):
         pygame.draw.circle(self._image, "pink", self.image.get_rect().center, 7)
 
         self.type = char
+        self.parent = parent
 
         self.pos = pos
         self.dir = dir
