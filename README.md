@@ -51,8 +51,7 @@ Use the arrow keys or A and D to move and catch apples. Works with number pad. C
 
 ### Image Slicer Puzzle Game
 
-Image Slicer Puzzle Game is a game where you upload an image and try to put it back together.
-
+Image Slicer Puzzle Game is a game where you upload an image and try to put it back together. Made in Python using Pygame.
 **How To Play**
 
 Choose an image by clicking the Change Image box and your difficulty from the options on the side panel. Your image will then be scrambled. Left-click on a tile to select it (you should see a blue outline). Click another tile to swap their positions. On easy and medium modes, a tile will be green when placed in the correct spot. On all other modes, the entire image will turn green when all tiles are placed in their correct spots. You can change the difficulty or the image at any time.
@@ -61,7 +60,7 @@ Choose an image by clicking the Change Image box and your difficulty from the op
 
 ### Color Fighter
 
-Color Fighter is a multiplayer _(2-player)_ fighting game where you try to defeat your opponent(s) using a specific color character.
+Color Fighter is a multiplayer _(2-player)_ fighting game where you try to defeat your opponent(s) using a specific color character. Made in Python using Pygame, images made in Piskel.
 
 **How To Play**
 
