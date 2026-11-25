@@ -9,6 +9,7 @@ This is the repository for all of my projects for Hack Club Terra. All games are
 - [Disaster Relief](#Disaster-Relief)
 - [Fall Farmer](#Fall-Farmer)
 - [Image Slicer Puzzle Game](#Image-Slicer-Puzzle-Game)
+- [Color Fighter](#Color-Fighter)
 
 ### Galahax
 A Galaga-style shooter game about destroying hacker ships. Made completely in Python using Pygame. 
@@ -50,10 +51,19 @@ Use the arrow keys or A and D to move and catch apples. Works with number pad. C
 
 ### Image Slicer Puzzle Game
 
-Image Slicer Puzzle Game is a game where you upload an image and try to put it back together.
-
+Image Slicer Puzzle Game is a game where you upload an image and try to put it back together. Made in Python using Pygame.
 **How To Play**
 
 Choose an image by clicking the Change Image box and your difficulty from the options on the side panel. Your image will then be scrambled. Left-click on a tile to select it (you should see a blue outline). Click another tile to swap their positions. On easy and medium modes, a tile will be green when placed in the correct spot. On all other modes, the entire image will turn green when all tiles are placed in their correct spots. You can change the difficulty or the image at any time.
 
 <img width="962" height="1000" alt="image" src="https://github.com/user-attachments/assets/419089c1-aadd-43ab-8f33-b5c565c7ee2c" />
+
+### Color Fighter
+
+Color Fighter is a multiplayer _(2-player)_ fighting game where you try to defeat your opponent(s) using a specific color character. Made in Python using Pygame, images made in Piskel.
+
+**How To Play**
+
+With a friend, obviously... Player 1 Controls: Movement-WASD Attack/Shoot-QE. Player 2 Controls: Movement-IJKL Attack/Shoot-UO.
+
+<img width="1602" height="940" alt="image" src="https://github.com/user-attachments/assets/9fff2e9a-155d-4fd2-99a2-cf4fa885ef0e" />
