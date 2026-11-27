@@ -24,7 +24,33 @@ class Pixel(pygame.Rect):
         self.rect = rect
         self.color = color
 
+class Waffle():
 
+    class _WafflePixel():
+        def __init__(self, rect: pygame.Rect, color):
+            self.rect = pygame.Rect(rect)
+            self.color = color
+
+    def __init__(self, size: int, rows: int, columns: int, pos: tuple[int, int], dx: int = 0, dy: int = 0, color: str = "white", border: int = 2):
+        self.pixel_size = size
+        self.num_cols = columns
+        self.num_rows = rows
+        self.col_spacing = dx
+        self.row_spacing = dy
+        self.border_Width = border
+        self.pixels: list[Waffle._WafflePixel] = []
+        self.pos = pos
+        self.default_color = color
+
+        for y in range(self.num_rows):
+            for x in range(self.num_cols):
+                pos = (x * (self.pixel_size + self.col_spacing) + self.pos[0], y * (self.pixel_size + self.row_spacing) + self.pos[1])
+                self.pixels.append(Waffle._WafflePixel((pos, (self.pixel_size, self.pixel_size)), self.default_color))
+
+    def draw_waffle(self, surface: pygame.Surface):
+        for pixel in self.pixels:
+            pygame.draw.rect(surface, pixel.color, pixel.rect)
+            pygame.draw.rect(surface, "black", pixel.rect, self.border_Width)
 
 click = False
 
@@ -39,7 +65,7 @@ menu_label = {
     "Foo": [],
 }
 
-def menu_function(button: str, item:str):
+def menu_function(button: str, item: str):
     pass
 
 # Side Panel
@@ -87,6 +113,10 @@ while running:
     pygame.draw.rect(screen, "lightgray", brush_slider)
     pygame.draw.rect(screen, "darkgray", brush_knob)
 
+    # Color Selection Box
+    color_box = pygame.Rect(sidebar.left, sidebar.height * 0.75, sidebar.width - 12, 80)
+    color_box.centerx = sidebar.centerx
+    
 
     # Draw Menubar
     pygame.draw.rect(screen, "black", menubar, 4)
