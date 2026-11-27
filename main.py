@@ -73,7 +73,8 @@ while running:
         b = list(menu_label.keys()).index(button)
 
         # Draw Menu Buttons
-        button_rect = pygame.draw.rect(screen, "black", ((b * 80, 0), (80, menubar.height)), 2)
+        button_rect = pygame.draw.rect(screen, "lightgray" if menu_button == b else "white", ((b * 80, 0), (80, menubar.height)))
+        pygame.draw.rect(screen, "black", button_rect, 2)
         text = monocraft.render(button, False, "black")
         text_rect = text.get_rect(center=button_rect.center)
         screen.blit(text, text_rect)
@@ -95,7 +96,7 @@ while running:
 
                 item_rect = pygame.draw.rect(screen, "black", ((button_menu.left, button_menu.top + i * 40), (button_menu.width, 40)), 2)
                 item_focused = True if item_rect.collidepoint(mouse_pos) else False
-                pygame.draw.rect(screen, "darkgray" if item_focused else "black", item_rect)
+                pygame.draw.rect(screen, "lightgray" if item_focused else "black", item_rect)
                 text = monocraft.render(item, False, "black" if item_focused else "white")
                 text_rect = text.get_rect(center=item_rect.center)
                 screen.blit(text, text_rect)
