@@ -42,6 +42,8 @@ def menu_function(button: str, item:str):
 
 # Side Panel
 sidebar = pygame.Rect((menubar.bottomleft), (screen_rect.right - 660, screen_rect.height - menubar.height))
+brush_pos = 30
+brush_size = 1
 
 # Canvas
 canvas_window = pygame.Rect((sidebar.topright), (660, 660))
@@ -60,10 +62,29 @@ while running:
     screen.fill("white")
     mouse_pos = pygame.mouse.get_pos()
 
-    
-
-    pygame.draw.rect(screen, "blue", sidebar, 4)
     pygame.draw.rect(screen, "gray", canvas_window, 4)
+
+
+    # Draw Sidebar
+    pygame.draw.rect(screen, "blue", sidebar, 4)
+
+    # Sidebar Logic
+    brush_slider = pygame.Rect((0, sidebar.height / 8 * 1.5), (sidebar.width * 0.75, 20))
+    brush_slider.centerx = sidebar.centerx
+    brush_knob = pygame.Rect((brush_pos, brush_slider.top), (brush_slider.width / 10, brush_slider.height))
+    
+    if brush_slider.collidepoint(mouse_pos) and click:
+        brush_size = ((mouse_pos[0] - brush_slider.left) // brush_knob.width) + 1
+        brush_pos = brush_slider.left + (brush_size - 1) * brush_knob.width
+        brush_knob.clamp_ip(brush_slider)
+        
+    text = monocraft.render(f"Brush Size: {brush_size}", False, "black")
+    text_rect = text.get_rect(center=(sidebar.centerx, sidebar.height / 8 * 1.25))
+    screen.blit(text, text_rect)
+        
+    pygame.draw.rect(screen, "lightgray", brush_slider)
+    pygame.draw.rect(screen, "darkgray", brush_knob)
+
 
     # Draw Menubar
     pygame.draw.rect(screen, "black", menubar, 4)
@@ -111,8 +132,6 @@ while running:
                 show_menu = False
                 menu_button = -1
                 menu_item = -1
-
-
 
     pygame.display.flip()
     dt = clock.tick(60) / 1000
