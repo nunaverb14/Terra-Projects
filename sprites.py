@@ -7,16 +7,19 @@ class Tile(pygame.sprite.Sprite):
 
     # Tile Selection Method
     @staticmethod
-    def select(tile):
+    def select(tile, selected_mode):
         # Select New Tile
         if not Tile.selected_tile:
             Tile.selected_tile = tile
         else:
-            # Switch Selected Tiles
-            topleft = Tile.selected_tile.current_pos
-            Tile.selected_tile.set_pos(tile.rect.topleft)
-            tile.set_pos(topleft)
-            Tile.selected_tile = None
+            if selected_mode < 2 and tile.placed:
+                return
+            else:
+                # Switch Selected Tiles
+                topleft = Tile.selected_tile.current_pos
+                Tile.selected_tile.set_pos(tile.rect.topleft)
+                tile.set_pos(topleft)
+                Tile.selected_tile = None
 
     # Tile Deselect Method
     @staticmethod
@@ -41,6 +44,6 @@ class Tile(pygame.sprite.Sprite):
         self.rect.topleft = self.current_pos
 
     # Update Tile for Correct Placement
-    def update(self, mode):
+    def update(self):
         if self.current_pos == self.original_pos and not self.placed:
             self.placed = True

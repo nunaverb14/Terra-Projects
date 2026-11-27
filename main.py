@@ -92,6 +92,7 @@ while running:
             click = False
             selected_mode = i
             image_path = None
+            change_image = False
             # Mode Tile Sizes
             if selected_mode == 0:
                 tile_num = 2
@@ -162,15 +163,19 @@ while running:
                 # Select and Switch Tiles
                 if tile.rect.collidepoint(mouse_pos) and click:
                     click = False
-                    Tile.select(tile)
+                    Tile.select(tile, selected_mode)
                     if selected_mode < 2 and tile.placed:
                         Tile.deselect()
-                        overlay = pygame.Surface((tile.rect.width, tile.rect.height), pygame.SRCALPHA)
-                        overlay.fill((0, 255, 0, 32))
-                        screen.blit(overlay, tile.rect.topleft)
 
     # Draw and Update Tiles
-    Tile.tiles.update(selected_mode)
+    Tile.tiles.update()
+
+    for tile in Tile.tiles.sprites():
+        if selected_mode < 2 and tile.placed:
+            overlay = pygame.Surface((tile.rect.width, tile.rect.height), pygame.SRCALPHA)
+            overlay.fill((0, 255, 0, 32))
+            screen.blit(overlay, tile.rect.topleft)
+
     # Completed Image Overlay
     if all(tile.original_pos == tile.current_pos for tile in Tile.tiles.sprites()) and image_chosen:
         overlay = pygame.Surface((540, 540), pygame.SRCALPHA)
