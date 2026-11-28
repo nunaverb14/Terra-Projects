@@ -47,6 +47,11 @@ class Waffle():
                 pos = (x * (self.pixel_size + self.col_spacing) + self.pos[0], y * (self.pixel_size + self.row_spacing) + self.pos[1])
                 self.pixels.append(Waffle._WafflePixel((pos, (self.pixel_size, self.pixel_size)), self.default_color))
 
+    def switch_pixels(self, pixel1: int, pixel2: int):
+        color = self.pixels[pixel1].color
+        self.pixels[pixel1].color = self.pixels[pixel2].color
+        self.pixels[pixel2].color = color
+
     def draw_waffle(self, surface: pygame.Surface):
         for pixel in self.pixels:
             pygame.draw.rect(surface, pixel.color, pixel.rect)
@@ -69,11 +74,13 @@ def menu_function(button: str, item: str):
     pass
 
 # Side Panel
-sidebar = pygame.Rect((menubar.bottomleft), (screen_rect.right - 660, screen_rect.height - menubar.height))
 brush_pos = 30
 brush_size = 1
+sidebar = pygame.Rect((menubar.bottomleft), (screen_rect.right - 660, screen_rect.height - menubar.height))
+
 
 # Canvas
+current_color = ""
 canvas_window = pygame.Rect((sidebar.topright), (660, 660))
 
 
@@ -97,6 +104,11 @@ while running:
     pygame.draw.rect(screen, "blue", sidebar, 4)
 
     # Sidebar Logic
+    # Brush Slider
+    text = monocraft.render(f"Brush Size: {brush_size}", False, "black")
+    text_rect = text.get_rect(center=(sidebar.centerx, sidebar.height / 8 * 1.25))
+    screen.blit(text, text_rect)
+
     brush_slider = pygame.Rect((0, sidebar.height / 8 * 1.5), (sidebar.width * 0.75, 20))
     brush_slider.centerx = sidebar.centerx
     brush_knob = pygame.Rect((brush_pos, brush_slider.top), (brush_slider.width / 10, brush_slider.height))
@@ -105,18 +117,26 @@ while running:
         brush_size = ((mouse_pos[0] - brush_slider.left) // brush_knob.width) + 1
         brush_pos = brush_slider.left + (brush_size - 1) * brush_knob.width
         brush_knob.clamp_ip(brush_slider)
-        
-    text = monocraft.render(f"Brush Size: {brush_size}", False, "black")
-    text_rect = text.get_rect(center=(sidebar.centerx, sidebar.height / 8 * 1.25))
-    screen.blit(text, text_rect)
-        
+
     pygame.draw.rect(screen, "lightgray", brush_slider)
     pygame.draw.rect(screen, "darkgray", brush_knob)
 
     # Color Selection Box
-    color_box = pygame.Rect(sidebar.left, sidebar.height * 0.75, sidebar.width - 12, 80)
+    text = monocraft.render("Colors", False, "black")
+    text_rect = text.get_rect(center=(sidebar.centerx, sidebar.height * 0.725))
+    screen.blit(text, text_rect)
+
+    color_box = pygame.Rect(sidebar.left, sidebar.height * 0.75, sidebar.width - 12, 90)
     color_box.centerx = sidebar.centerx
-    
+    colors = Waffle(21, 4, 10, color_box.topleft, 2, 2, color="lightgray")
+
+    for pixel in colors.pixels:
+        if pixel.rect.collidepoint(mouse_pos) and click:
+            click = False
+            current_color = pixel.color
+
+
+    colors.draw_waffle(screen)
 
     # Draw Menubar
     pygame.draw.rect(screen, "black", menubar, 4)
