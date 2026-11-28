@@ -52,6 +52,37 @@ class Waffle():
         self.pixels[pixel1].color = self.pixels[pixel2].color
         self.pixels[pixel2].color = color
 
+    def set_palette(self, palette: str):
+        if palette == "default":
+            for i in range(self.num_cols * 2):
+             self.pixels[i + self.num_cols].color = pygame.Color.from_hsva((360 / (self.num_cols * 2) * i, 100, 100, 100))
+        
+            for i in range(colors.num_cols):
+                self.pixels[i + self.num_cols * 3].color = pygame.Color.from_hsva(0, 0, 100 / (self.num_cols - 1) * i, 100)
+    
+        if palette == "fire":
+            for i in range(self.num_cols * 3):
+                self.pixels[i + self.num_cols].color = pygame.Color.from_hsva(30 * (i // self.num_cols), 100, 100 - 100 / (self.num_cols) * (i % self.num_cols + 1), 100)
+        
+        if palette == "water":
+            for i in range(self.num_cols * 3):
+                self.pixels[i + self.num_cols].color = pygame.Color.from_hsva(30 * (i // self.num_cols) + 180, 100 - 100 / (self.num_cols) * (i % self.num_cols + 1), 100)
+
+        if palette == "nature":
+            for i in range(self.num_cols):
+                self.pixels[i + self.num_cols].color = pygame.Color.from_hsva(30 * (i // self.num_cols) + 90, 100 - 100 / (self.num_cols) * (i % self.num_cols + 1), 100)
+            
+            for i in range(self.num_cols):
+                self.pixels[i + self.num_cols * 2].color = pygame.Color.from_hsva(30 * (i // self.num_cols) + 90, 100, 100 - 100 / (self.num_cols) * (i % self.num_cols + 1))
+
+            for i in range(self.num_cols):
+                self.pixels[i + self.num_cols * 3].color = pygame.Color.from_hsva(15 * (i // self.num_cols) + 45, 100, 100 - 100 / (self.num_cols) * (i % self.num_cols + 1))
+
+        if palette == "pastel":
+            for i in range(self.num_cols * 3):
+                self.pixels[i + self.num_cols].color = pygame.Color.from_hsva(360 / (self.num_cols * 3) * i, 50, 100)
+
+
     def draw_waffle(self, surface: pygame.Surface):
         for pixel in self.pixels:
             pygame.draw.rect(surface, pixel.color, pixel.rect)
@@ -129,12 +160,12 @@ while running:
     color_box = pygame.Rect(sidebar.left, sidebar.height * 0.75, sidebar.width - 12, 90)
     color_box.centerx = sidebar.centerx
     colors = Waffle(21, 4, 10, color_box.topleft, 2, 2, color="lightgray")
+    colors.set_palette("default")
 
     for pixel in colors.pixels:
         if pixel.rect.collidepoint(mouse_pos) and click:
             click = False
             current_color = pixel.color
-
 
     colors.draw_waffle(screen)
 
